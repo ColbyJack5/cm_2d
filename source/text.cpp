@@ -1,25 +1,31 @@
 #include <dsf.h>    
 #include <nds.h>
-#include <nf_lib.h>
-#include "font2_0_16.h"
-#include "font2_fnt_bin.h"
+#include <nf_lib.h>
 #include "blocky_0.h"
 #include <constants.h>
 #include <cstring>
+#include <string>
 #include "misc.h"
 
 
 struct Font
 {
-    int fontIMGwidth;
-    int fontIMGheight;
+    Identifier identity;
+    std:: string name;
+    dsf_handle handle;
+    int GFXwidth;
+    int GFXheight;
     int textureFormat;
-    /* data */
+    void* bitmap;
+    Font(Identifier identity, const std::string& name, int GFXwidth, int GFXheight, int textureFormat, void* bitmap) : identity (identity), name (name), GFXwidth (GFXwidth), GFXheight (GFXheight), textureFormat (textureFormat), bitmap(bitmap){
+         
+    }
 };
 
-
+#define MaxFonts 3;
 
 dsf_handle handle;
+ObjectPool<Font, MaxFonts> fonts;
 
 
 void CM_LoadFont(const void* fontData, int fontDataSize){
