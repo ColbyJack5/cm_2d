@@ -24,8 +24,9 @@ struct Font
 
 #define MaxFonts 3;
 
-dsf_handle handle;
+//dsf_handle handle;
 ObjectPool<Font, MaxFonts> fonts;
+std::map<std::string, Identifier> fontregistry;
 
 
 void CM_LoadFont(const void* fontData, int fontDataSize){
@@ -36,15 +37,18 @@ void CM_LoadFont(const void* fontData, int fontDataSize){
     }
 }
 
-void CM_LoadFont(const char* path){
-    dsf_error rc = DSF_LoadFontFilesystem(&handle, path);
+void CM_LoadFont(const char* path, int GFXwidth, int GFXheight, int textureFormat, void* bitmap){
+    Identifier fontIdentity = fonts.add(path, GFXwidth, GFXheight, textureFormat, bitmap);
+    fontRegistry[path] = fontIdentity;
+    Font* font = fonts.get(fontIdentity);
+    dsf_error rc = DSF_LoadFontFilesystem(&font.handle, font.path);
     if (rc != DSF_NO_ERROR)
     {
         NF_Error(200,"Failed to load font", 200);
     }
 }
 
-void CM_DrawText(int Screen,char* text, Pos position){
+void CM_DrawText(int Screen,char* text, const std::string& fontName, Pos position){
 
     int lineCount = 0;
     int lastSpace = 0;
@@ -68,9 +72,10 @@ void CM_DrawText(int Screen,char* text, Pos position){
     size_t out_width, out_height;
 
     void *out_texture;
-    dsf_error error = DSF_StringRenderToTexture(handle,
-                        wrappedtext, GL_RGB16,
-                        blocky_0Bitmap, 128, 128,
+    Font* font = fonts.get(fontRegistry[fontName]); 
+    dsf_error error = DSF_StringRenderToTexture(font.handle,
+                        wrappedtext, font.tempateFormat,
+                        font.bitmap, font.GFXwidth, font.GFXhieght,
                         &out_texture, &out_width, &out_height);
     if (error != DSF_NO_ERROR)
     {
