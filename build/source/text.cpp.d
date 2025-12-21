@@ -78,8 +78,7 @@ build/source/text.cpp.o: source/text.cpp \
  C:/msys2/opt/wonderful/thirdparty/blocksds/external/nflib/include/nf_text16.h \
  C:/msys2/opt/wonderful/thirdparty/blocksds/external/nflib/include/nf_text.h \
  C:/msys2/opt/wonderful/thirdparty/blocksds/external/nflib/include/nf_tiledbg.h \
- include/font2_0_16.h include/font2_fnt_bin.h include/blocky_0.h \
- include/constants.h include/misc.h
+ include/constants.h include/misc.h include/objectpool.h include/misc.h
 C:/msys2/opt/wonderful/thirdparty/blocksds/external/libdsf/include/dsf.h:
 C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/nds.h:
 C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/nds/bios.h:
@@ -159,8 +158,7 @@ C:/msys2/opt/wonderful/thirdparty/blocksds/external/nflib/include/nf_sprite3d.h:
 C:/msys2/opt/wonderful/thirdparty/blocksds/external/nflib/include/nf_text16.h:
 C:/msys2/opt/wonderful/thirdparty/blocksds/external/nflib/include/nf_text.h:
 C:/msys2/opt/wonderful/thirdparty/blocksds/external/nflib/include/nf_tiledbg.h:
-include/font2_0_16.h:
-include/font2_fnt_bin.h:
-include/blocky_0.h:
 include/constants.h:
+include/misc.h:
+include/objectpool.h:
 include/misc.h:

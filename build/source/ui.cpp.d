@@ -1,7 +1,10 @@
-build/source/ui.cpp.o: source/ui.cpp include/ui.h \
+build/source/ui.cpp.o: source/ui.cpp include/ui.h include/misc.h \
+ C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/filesystem.h \
+ C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/nds/ndstypes.h \
+ C:/msys2/opt/wonderful/thirdparty/blocksds/external/nflib/include/nf_lib.h \
+ C:/msys2/opt/wonderful/thirdparty/blocksds/external/nflib/include/nf_2d.h \
  C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/nds.h \
  C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/nds/bios.h \
- C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/nds/ndstypes.h \
  C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/nds/camera.h \
  C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/nds/card.h \
  C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/nds/cothread.h \
@@ -60,10 +63,6 @@ build/source/ui.cpp.o: source/ui.cpp include/ui.h \
  C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/nds/arm9/teak/dsp.h \
  C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/nds/arm9/teak/fifo.h \
  C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/nds/arm9/teak/tlf.h \
- include/misc.h \
- C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/filesystem.h \
- C:/msys2/opt/wonderful/thirdparty/blocksds/external/nflib/include/nf_lib.h \
- C:/msys2/opt/wonderful/thirdparty/blocksds/external/nflib/include/nf_2d.h \
  C:/msys2/opt/wonderful/thirdparty/blocksds/external/nflib/include/nf_sprite256.h \
  C:/msys2/opt/wonderful/thirdparty/blocksds/external/nflib/include/nf_3d.h \
  C:/msys2/opt/wonderful/thirdparty/blocksds/external/nflib/include/nf_affinebg.h \
@@ -81,9 +80,13 @@ build/source/ui.cpp.o: source/ui.cpp include/ui.h \
  C:/msys2/opt/wonderful/thirdparty/blocksds/external/nflib/include/nf_tiledbg.h \
  include/constants.h include/text.h include/misc.h include/sprites.h
 include/ui.h:
+include/misc.h:
+C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/filesystem.h:
+C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/nds/ndstypes.h:
+C:/msys2/opt/wonderful/thirdparty/blocksds/external/nflib/include/nf_lib.h:
+C:/msys2/opt/wonderful/thirdparty/blocksds/external/nflib/include/nf_2d.h:
 C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/nds.h:
 C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/nds/bios.h:
-C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/nds/ndstypes.h:
 C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/nds/camera.h:
 C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/nds/card.h:
 C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/nds/cothread.h:
@@ -142,10 +145,6 @@ C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/nds/arm9/per
 C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/nds/arm9/teak/dsp.h:
 C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/nds/arm9/teak/fifo.h:
 C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/nds/arm9/teak/tlf.h:
-include/misc.h:
-C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/filesystem.h:
-C:/msys2/opt/wonderful/thirdparty/blocksds/external/nflib/include/nf_lib.h:
-C:/msys2/opt/wonderful/thirdparty/blocksds/external/nflib/include/nf_2d.h:
 C:/msys2/opt/wonderful/thirdparty/blocksds/external/nflib/include/nf_sprite256.h:
 C:/msys2/opt/wonderful/thirdparty/blocksds/external/nflib/include/nf_3d.h:
 C:/msys2/opt/wonderful/thirdparty/blocksds/external/nflib/include/nf_affinebg.h:

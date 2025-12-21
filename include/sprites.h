@@ -40,6 +40,7 @@ void CM_DeleteSpritePalette(const std::string& paletteName);
 /* Creates an instance of a sprite on the specified screen (0-1) using a Sprite Template and position (x (0-255), y (0-192)). Keep ahold of this Identifier for later */
 Identifier CM_CreateSprite(int screen, const std::string& templateName, Pos pos);
 
+
 Identifier CM_CreateSprite(int screen, const std::string& templateName, const std::string& paletteName, Pos pos);
 
 /* Returns whether or not an Identifier maps to an active Sprite Instance*/
@@ -65,6 +66,13 @@ void CM_MoveSprite(Identifier spriteIdentity, Pos position);
 /* Sets the Animation of a Sprite. Animation must first be added to the Sprite Template the Sprite is created from */
 void CM_SetSpriteAnimation(Identifier spriteIdentity, const std::string& animationName);
 
+std::string CM_GetCurrentSpriteAnimation(Identifier spriteIdentity);
+
+/* Gets whether or not the current animaiton is on its final frame */
+bool CM_GetSpriteAnimationCompleted(Identifier spriteIdentity);
+
+/* Adds an animation to the Queue that will play after the current animation has completed */
+void CM_AddAnimationToSpriteQueue(Identifier spriteIdentity, const std::string& animationName);
 
 /* Sets the render layer (0-3) of a sprite*/
 void CM_SetSpriteLayer(Identifier spriteIdentity, int layer);
@@ -75,7 +83,7 @@ void CM_SetSpriteVisibility(Identifier spriteIdentity, bool isVisible);
 
 
 /* Sets the horizontal flip of a sprite */
-void CM_FlipSpriteHorizontaly(Identifier spriteIdentity, bool isFlipped);
+void CM_FlipSpriteHorizontally(Identifier spriteIdentity, bool isFlipped);
 
 
 /* Retrives the horizontal flip of a sprite */
@@ -83,7 +91,7 @@ bool CM_GetSpriteHorizontalFlip(Identifier sprite);
 
 
 /* Sets the vertical flip of a sprite */
-void CM_FlipSpriteVerticaly(Identifier sprite, bool isFlipped);
+void CM_FlipSpriteVertically(Identifier sprite, bool isFlipped);
 
 
 /* Retrives the horizontal flip of a sprite */

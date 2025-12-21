@@ -42,39 +42,11 @@ void Initialize(){
 }
 
 
-
-u32 Info(std::string infoString){
-    NF_LoadTiledBg("backgrounds/canvas2", "Canvas",256,256);
-    NF_CreateTiledBg(ScreenConstants::bottomScreen,ScreenConstants::layer0,"Canvas");
-    bgSetPriority(0,3);
-    bgSetPriority(3,0);
-    bgSetPriority(4,3);
-    bgSetPriority(7,0);
-    CM_DrawText(ScreenConstants::bottomScreen,infoString.data(), Pos(10,10));
-    NF_Flip8bitsBackBuffer(ScreenConstants::bottomScreen,1);
-    touchPosition touch;
-        u32 keys = 0;
-
-    // wait until any key is pressed, then return which key(s) were pressed
-    do {
-        scanKeys();
-        touchRead(&touch);
-        keys = keysDown();
-        swiWaitForVBlank();
-    } while (!(keys & KEY_A) && !(keys & KEY_B));
-
-    free(NF_8BITS_BACKBUFFER[ScreenConstants::bottomScreen].data);
-    NF_8BITS_BACKBUFFER[ScreenConstants::bottomScreen].data = (u8*) calloc(65536, sizeof(u8));
-    return keys;
-}
-
-
-
 void UpdateScreen(){
     CM_UpdateSprites();
     NF_SpriteOamSet(ScreenConstants::topScreen);
     NF_SpriteOamSet(ScreenConstants::bottomScreen);
-    swiWaitForVBlank();		// Espera al sincronismo vertical
+    swiWaitForVBlank();		
     oamUpdate(&oamMain);
     oamUpdate(&oamSub);
     NF_Flip8bitsBackBuffer(ScreenConstants::bottomScreen,1);

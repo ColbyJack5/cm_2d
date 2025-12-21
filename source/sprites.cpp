@@ -5,6 +5,7 @@
 #include <memory>
 #include <array>
 #include <cmath>
+#include <queue>
 #include <algorithm>
 #include <nf_lib.h>
 #include <iostream>
@@ -139,6 +140,7 @@ class SpritePalette{
 class SpriteInstance {
     private:
         // Animation state
+        std::queue<std::string> animationQueue;
         std::string currentAnim;
         std::vector<int> currentFrames;  
         int frameTimer = 0;
@@ -182,6 +184,18 @@ class SpriteInstance {
             NF_SpriteFrame(screen, identity.id, currentFrames[0]);
         }
 
+        std::string GetCurrentAnimation(){
+            return currentAnim;
+        }
+
+        void AddAnimationToQueue(const std::string& animationName){
+            animationQueue.push(animationName);
+        }
+
+        bool GetAnimationCompleted(){
+            if(currentFrame >= currentFrames.size()-1 && frameTimer >= frameDelay) return true;
+            else return false;
+        }
 
         void SetLayer(int layer){
             NF_SpriteLayer(screen, identity.id, layer);
@@ -226,12 +240,18 @@ class SpriteInstance {
         void Update() {
             if (currentFrames.empty()) return;
             
-            frameTimer++;
-            if (frameTimer >= frameDelay) {
-                frameTimer = 0;
-                currentFrame = (currentFrame + 1) % currentFrames.size();
-                SetAnimationFrame(currentFrames[currentFrame]);
+            if(GetAnimationCompleted() && !animationQueue.empty()){
+                SetAnimation(animationQueue.front());
+                animationQueue.pop();
             }
+            else{   
+                if (frameTimer >= frameDelay) {
+                    frameTimer = 0;
+                    currentFrame = (currentFrame + 1) % currentFrames.size();
+                    SetAnimationFrame(currentFrames[currentFrame]);
+                }
+            }
+            frameTimer++;
         }
 
         bool operator==(SpriteInstance* spriteToCompare) const {
@@ -542,6 +562,23 @@ class SpriteManager {
             registry.sprites.get(spriteIdentity)->SetAnimation(animationName);
         }
 
+        std::string CM_GetCurrentSpriteAnimation(Identifier spriteIdentity){
+            if(!CM_isSpriteValid(spriteIdentity)) return "";
+            ScreenRegistry& registry = spriteManager.GetScreenRegistry(spriteIdentity.screen.value());
+            return registry.sprites.get(spriteIdentity)->GetCurrentAnimation();
+        }
+
+        bool CM_GetSpriteAnimationCompleted(Identifier spriteIdentity){
+            if(!CM_isSpriteValid(spriteIdentity)) return false;
+            ScreenRegistry& registry = spriteManager.GetScreenRegistry(spriteIdentity.screen.value());
+            return registry.sprites.get(spriteIdentity)->GetAnimationCompleted();
+        }
+
+        void CM_AddAnimationToSpriteQueue(Identifier spriteIdentity, const std::string& animationName){
+            if(!CM_isSpriteValid(spriteIdentity)) return;
+            ScreenRegistry& registry = spriteManager.GetScreenRegistry(spriteIdentity.screen.value());
+            registry.sprites.get(spriteIdentity)->AddAnimationToQueue(animationName);
+        }
 
         void CM_SetSpriteLayer(Identifier spriteIdentity, int layer){
             if(!CM_isSpriteValid(spriteIdentity)) return;
@@ -557,7 +594,7 @@ class SpriteManager {
         }
 
 
-        void CM_FlipSpriteHorizontaly(Identifier spriteIdentity, bool isFlipped){
+        void CM_FlipSpriteHorizontally(Identifier spriteIdentity, bool isFlipped){
             if(!CM_isSpriteValid(spriteIdentity)) return;
             ScreenRegistry& registry = spriteManager.GetScreenRegistry(spriteIdentity.screen.value());
             registry.sprites.get(spriteIdentity)->HFlip(isFlipped);
@@ -571,7 +608,7 @@ class SpriteManager {
         }
 
 
-        void CM_FlipSpriteVerticaly(Identifier sprite, bool isFlipped){
+        void CM_FlipSpriteVertically(Identifier sprite, bool isFlipped){
             if(!CM_isSpriteValid(sprite)) return;
             ScreenRegistry& registry = spriteManager.GetScreenRegistry(sprite.screen.value());
             registry.sprites.get(sprite)->VFlip(isFlipped);

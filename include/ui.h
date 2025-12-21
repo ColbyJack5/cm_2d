@@ -1,12 +1,9 @@
 #pragma once
-#include <nds.h>
 #include <string>
 #include "misc.h"
 
 
 void Initialize();
-
-u32 Info(std::string infoString);
 
 void UpdateScreen();
 

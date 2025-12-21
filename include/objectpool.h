@@ -43,7 +43,6 @@ public:
         } else {
             if (high_water_mark < MaxCapacity) {
                 index = high_water_mark++;
-                std::cout << "elements:" << index << std::endl; 
             } else {
                 std::cout << "Exceeded limit" << "\n"; 
                 return nullptr;
@@ -51,7 +50,7 @@ public:
         }
         active_count++;
 
-        // Emplace the object. We pass the index and generation to the constructor 
+        // Emplace the object. Pass the Identifier to the constructor 
         Slot& slot = slots[index];
         slot.data.emplace(Identifier{index, slot.generation}, std::forward<Args>(args)...);
         
@@ -62,8 +61,8 @@ public:
     void remove(Identifier identity) {
         if (!isValid(identity)) return;
         Slot& slot = slots[identity.id];
-        slot.data.reset(); // Destroys object (calls object destructor)
-        slot.generation++; // Increment generation so old pointers become invalid
+        slot.data.reset(); // Destroys object
+        slot.generation++; // Increment generation so old Identifiers become invalid
         free_indices.push_back(identity.id);
         active_count--;
     }
@@ -87,7 +86,7 @@ public:
     void clear() {
         for (int i = 0; i < high_water_mark; ++i) {
             if (slots[i].data.has_value()) {
-                slots[i].data.reset(); // Destroy
+                slots[i].data.reset();
                 slots[i].generation++;
             }
         }

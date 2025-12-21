@@ -3,8 +3,6 @@
 
 #include <misc.h>
 
-void CM_LoadFont(const void* fontData, int fontDataSize);
+void CM_LoadFont(const char* path, int GFXwidth, int GFXheight, int textureFormat, const void* bitmap);
 
-void CM_LoadFont(const char* path);
-
-void CM_DrawText(int Scrren, char* text, Pos position);
+void CM_DrawText(int Screen,char* text, const std::string& fontName, Pos position);

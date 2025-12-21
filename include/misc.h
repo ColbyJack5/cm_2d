@@ -2,6 +2,8 @@
 #define MISC_H
 #include <cmath>
 #include <optional>
+#include <algorithm>
+#include <string>
 
 class Pos
 {
@@ -41,5 +43,16 @@ struct Identifier
 };
 
 
+inline std::string TrimPath(std::string path) {
+    size_t lastDot = path.find_last_of('.');
+    if (lastDot != std::string::npos) {
+        path = path.substr(0, lastDot);
+    }
+    size_t lastSlash = path.find_last_of('/');
+    if (lastSlash != std::string::npos) {
+        path = path.substr(lastSlash + 1);
+    }
+    return path;
+}
 
 #endif
