@@ -82,6 +82,10 @@ void CM_SetSpriteLayer(Identifier spriteIdentity, int layer);
 void CM_SetSpriteVisibility(Identifier spriteIdentity, bool isVisible);
 
 
+/*Get the visibility of a sprite */
+bool CM_GetSpriteVisibility(Identifier spriteIdentity);
+
+
 /* Sets the horizontal flip of a sprite */
 void CM_FlipSpriteHorizontally(Identifier spriteIdentity, bool isFlipped);
 

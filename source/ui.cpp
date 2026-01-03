@@ -73,7 +73,7 @@ void ClearScreen(){
     bgSetPriority(7,0);
 }
 
-void DrawLine(int screen, Pos end1,Pos end2){
+void DrawLine(int screen, Pos end1,Pos end2, int color){
     int dx = end2.x - end1.x;
     int dy = end2.y - end1.y;
     int steps = std::max(std::abs(dx),std::abs(dy));
@@ -82,7 +82,7 @@ void DrawLine(int screen, Pos end1,Pos end2){
     float x = end1.x;
     float y = end1.y;
     for (int i = 0; i < steps; i++) {
-        NF_8BITS_BACKBUFFER[screen].data[(int)x + (int)y * 256] = 2;
+        NF_8BITS_BACKBUFFER[screen].data[(int)x + (int)y * 256] = color;
         x += xIncrement;
         y += yIncrement;
     }

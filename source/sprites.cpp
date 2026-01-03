@@ -20,28 +20,6 @@
 #define MaxPalettes 64
 
 
-
-
-
-
-enum class AnimationType {
-    None,
-    Idle,
-    Walk,
-    Shoot,
-    Fix,
-    Die,
-    Selected,
-    UnSelected,
-    VisitedSelected,
-    VisitedUnSelected
-};
-
-
-
-
-
-
 class SpriteTemplate {
     public:
         Identifier identity;
@@ -68,7 +46,6 @@ class SpriteTemplate {
             vramID = vramIdentity;
             vramID.value().screen = screen;
             NF_VramSpriteGfx(screen,identity.id,vramID.value().id,isAnimated);
-            //std::cout << "Template: " << name << ", ID: " << identity.id << ", GFXID: " << vramID.value().id << std::endl;
         }
 
         
@@ -104,7 +81,6 @@ class SpritePalette{
         std::optional<Identifier> screen1vram;
 
         SpritePalette(Identifier identity, const std::string& paletteName): identity(identity), name(paletteName){
-            //std::cout << "Palette: " << name << ", ID: " << identity.id << std::endl;
             NF_LoadSpritePal(name.c_str(), identity.id);
         }
 
@@ -113,7 +89,6 @@ class SpritePalette{
             if (vramID.has_value()) return; 
             vramID = vramIdentity;
             vramID.value().screen = screen;
-            //std::cout << "Palette: " << name << ", ID: " << identity.id << ", GFXID: " << vramID.value().id << std::endl;
             NF_VramSpritePal(screen, identity.id, vramID.value().id);
         }
 
@@ -158,8 +133,6 @@ class SpriteInstance {
         SpriteTemplate* template_;
 
         SpriteInstance(Identifier identity, int screen, SpriteTemplate* tmpl, SpritePalette* pltt, Pos pos): identity(identity), screen(screen), gfxID(((screen ==0) ? tmpl->screenOvram.value() : tmpl->screen1vram.value()).id), plttID(((screen == 0) ? pltt-> screen0vram.value() : pltt -> screen1vram.value()).id), position(pos), width(tmpl->width), height(tmpl->height), isAnimated(tmpl->isAnimated), template_(tmpl) { 
-            //std::cout << "Sprite: " << tmpl->name << ", GFXIDs: " << gfxID << ", ID: " << identity.id << std::endl;
-            //std::cout << ", Frames: " << NF_SPR256VRAM[screen][gfxID].lastframe << std::endl;
             this->identity.screen = screen;
             NF_CreateSprite(screen, identity.id, gfxID, plttID, pos.x, pos.y);
         }
@@ -591,6 +564,11 @@ class SpriteManager {
             if(!CM_isSpriteValid(spriteIdentity)) return;
             ScreenRegistry& registry = spriteManager.GetScreenRegistry(spriteIdentity.screen.value());
             registry.sprites.get(spriteIdentity)->Show(isVisible);
+        }
+
+
+        bool CM_GetSpriteVisibility(Identifier spriteIdentity) {
+            return !NF_SPRITEOAM[spriteIdentity.screen.value()][spriteIdentity.id].hide;
         }
 
 
