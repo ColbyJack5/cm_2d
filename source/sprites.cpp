@@ -507,8 +507,8 @@ class SpriteManager {
             for(ScreenRegistry* registry : {&spriteManager.screen0, &spriteManager.screen1}){
                 registry->sprites.clear();
             }
-            NF_SpriteOamSet(ScreenConstants::bottomScreen);
-            NF_SpriteOamSet(ScreenConstants::topScreen);
+            NF_SpriteOamSet(ScreenConstants::BOTTOMSCREEN);
+            NF_SpriteOamSet(ScreenConstants::TOPSCREEN);
             swiWaitForVBlank();
             oamUpdate(&oamMain);
             oamUpdate(&oamSub);

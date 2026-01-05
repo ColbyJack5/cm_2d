@@ -13,30 +13,30 @@ void wait_forever(void)
 }
 
 void Initialize(){
-	NF_Set2D(ScreenConstants::topScreen, 0);
-	NF_Set2D(ScreenConstants::bottomScreen, 0);	
+	NF_Set2D(ScreenConstants::TOPSCREEN, 0);
+	NF_Set2D(ScreenConstants::BOTTOMSCREEN, 0);	
 	consoleDebugInit(DebugDevice_NOCASH);
 	swiWaitForVBlank();
 	NF_SetRootFolder("NITROFS");	// Define the Root folder to use NITROFS
 
-	NF_Set2D(ScreenConstants::topScreen, 5);				// Mode2D_5 on both screens
-	NF_Set2D(ScreenConstants::bottomScreen, 5);
+	NF_Set2D(ScreenConstants::TOPSCREEN, 5);				// Mode2D_5 on both screens
+	NF_Set2D(ScreenConstants::BOTTOMSCREEN, 5);
     bool init_ok = nitroFSInit(NULL);
     if (!init_ok)
     {
         wait_forever();
     }
-    NF_InitMixedBgSys(ScreenConstants::topScreen);
-	NF_InitMixedBgSys(ScreenConstants::bottomScreen);
+    NF_InitMixedBgSys(ScreenConstants::TOPSCREEN);
+	NF_InitMixedBgSys(ScreenConstants::BOTTOMSCREEN);
     NF_InitTiledBgBuffers();
     NF_Init8bitsBgBuffers();
-    NF_Init8bitsBackBuffer(ScreenConstants::bottomScreen);
-    NF_Enable8bitsBackBuffer(ScreenConstants::bottomScreen);
-	NF_Init8bitsBackBuffer(ScreenConstants::topScreen);
-    NF_Enable8bitsBackBuffer(ScreenConstants::topScreen);
+    NF_Init8bitsBackBuffer(ScreenConstants::BOTTOMSCREEN);
+    NF_Enable8bitsBackBuffer(ScreenConstants::BOTTOMSCREEN);
+	NF_Init8bitsBackBuffer(ScreenConstants::TOPSCREEN);
+    NF_Enable8bitsBackBuffer(ScreenConstants::TOPSCREEN);
 	NF_InitSpriteBuffers();
-	NF_InitSpriteSys(ScreenConstants::topScreen);
-	NF_InitSpriteSys(ScreenConstants::bottomScreen);
+	NF_InitSpriteSys(ScreenConstants::TOPSCREEN);
+	NF_InitSpriteSys(ScreenConstants::BOTTOMSCREEN);
 	//LoadFont();
 	setBrightness(3, 0);
 }
@@ -44,17 +44,17 @@ void Initialize(){
 
 void UpdateScreen(){
     CM_UpdateSprites();
-    NF_SpriteOamSet(ScreenConstants::topScreen);
-    NF_SpriteOamSet(ScreenConstants::bottomScreen);
+    NF_SpriteOamSet(ScreenConstants::TOPSCREEN);
+    NF_SpriteOamSet(ScreenConstants::BOTTOMSCREEN);
     swiWaitForVBlank();		
     oamUpdate(&oamMain);
     oamUpdate(&oamSub);
-    NF_Flip8bitsBackBuffer(ScreenConstants::bottomScreen,1);
-    free(NF_8BITS_BACKBUFFER[ScreenConstants::bottomScreen].data);
-    NF_8BITS_BACKBUFFER[ScreenConstants::bottomScreen].data = (u8*) calloc(65536, sizeof(u8));
-    NF_Flip8bitsBackBuffer(ScreenConstants::topScreen,1);
-    free(NF_8BITS_BACKBUFFER[ScreenConstants::topScreen].data);
-    NF_8BITS_BACKBUFFER[ScreenConstants::topScreen].data = (u8*) calloc(65536, sizeof(u8));
+    NF_Flip8bitsBackBuffer(ScreenConstants::BOTTOMSCREEN,1);
+    free(NF_8BITS_BACKBUFFER[ScreenConstants::BOTTOMSCREEN].data);
+    NF_8BITS_BACKBUFFER[ScreenConstants::BOTTOMSCREEN].data = (u8*) calloc(65536, sizeof(u8));
+    NF_Flip8bitsBackBuffer(ScreenConstants::TOPSCREEN,1);
+    free(NF_8BITS_BACKBUFFER[ScreenConstants::TOPSCREEN].data);
+    NF_8BITS_BACKBUFFER[ScreenConstants::TOPSCREEN].data = (u8*) calloc(65536, sizeof(u8));
 }
 
 void ClearScreen(){
@@ -67,13 +67,9 @@ void ClearScreen(){
     }
     UpdateScreen();
     CM_DestroyAllSprites();
-    bgSetPriority(0,3);
-    bgSetPriority(3,0);
-    bgSetPriority(4,3);
-    bgSetPriority(7,0);
 }
 
-void DrawLine(int screen, Pos end1,Pos end2, int color){
+void DrawLine(int screen, int color, Pos end1,Pos end2){
     int dx = end2.x - end1.x;
     int dy = end2.y - end1.y;
     int steps = std::max(std::abs(dx),std::abs(dy));
@@ -89,7 +85,7 @@ void DrawLine(int screen, Pos end1,Pos end2, int color){
 }
 
 
-void DrawBox(int screen, Pos corner, Pos opposingCorner){
+void DrawBox(int screen, int color, Pos corner, Pos opposingCorner){
     // Determine the bounding box
     u16 minX = (corner.x < opposingCorner.x) ? corner.x : opposingCorner.x;
     u16 maxX = (corner.x > opposingCorner.x) ? corner.x : opposingCorner.x;

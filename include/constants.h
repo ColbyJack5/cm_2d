@@ -1,26 +1,24 @@
 #pragma once
 
 namespace ScreenConstants{
-    constexpr int topScreen = 0;
-    constexpr int bottomScreen = 1;
-    constexpr int layer0 = 0;
-    constexpr int layer1 = 1;
-    constexpr int layer2 = 2;
-    constexpr int layer3 = 3;
-    constexpr int rotation0 = 0;
-    constexpr int rotation1 = 1;
-    constexpr int rotation2 = 2;
+    constexpr int SCREENWIDTH = 256;
+    constexpr int SCREENHEIGHT = 192;
+    constexpr int TOPSCREEN = 0;
+    constexpr int BOTTOMSCREEN = 1;
+    constexpr int LAYER0 = 0;
+    constexpr int LAYER1 = 1;
+    constexpr int LAYER2 = 2;
+    constexpr int LAYER3 = 3;
+    constexpr int ROTATION0 = 0;
+    constexpr int ROTATION1 = 1;
+    constexpr int ROTATION2 = 2;
 }
 
 
 
 namespace SpriteConstants {
-    constexpr int CURSOR_WIDTH = 16;
-    constexpr int CURSOR_HEIGHT = 16;
-    constexpr int WEAPON_WIDTH = 32;
-    constexpr int WEAPON_HEIGHT = 32;
-    constexpr int CHARACTER_WIDTH = 16;
-    constexpr int CHARACTER_HEIGHT = 16;
-    constexpr int HEALTH_WIDTH = 16;
-    constexpr int HEALTH_HEIGHT = 8;
+    constexpr int SPRITESIZE8 = 8;
+    constexpr int SPRITESIZE16 = 16;
+    constexpr int SPRITESIZE32 = 32;
+    constexpr int SPRITESIZE64 = 64;
 }

@@ -38,14 +38,18 @@ ObjectPool<Font, MaxFonts> fonts;
 std::map<std::string, Identifier> fontRegistry;
 
 
-void CM_LoadFont(const char* path, int GFXwidth, int GFXheight, int textureFormat, const void* bitmap){
-    Font* font = fonts.create(path, GFXwidth, GFXheight, textureFormat, bitmap);
+void CM_LoadFont(const char* path, int GFXwidth, int GFXheight, const void* bitmap){
+    Font* font = fonts.create(path, GFXwidth, GFXheight, GL_RGB16, bitmap);
     fontRegistry[TrimPath(path)] = font->identity;
 }
 
 
-void CM_DrawText(int Screen, char* text, const std::string& fontName, Pos position){
+void CM_DrawText(int Screen, const char* text, const std::string& fontName, int color, Pos position){
 
+    bgSetPriority(0, 3);
+    bgSetPriority(3, 0);
+    bgSetPriority(4, 3);
+    bgSetPriority(7, 0);
     int lineCount = 0;
     int lastSpace = 0;
     char wrappedtext[std::strlen(text)+1];
@@ -100,10 +104,10 @@ void CM_DrawText(int Screen, char* text, const std::string& fontName, Pos positi
 
             int screen_x1 = position.x + j;
             if (texel1 > 0) {
-                NF_8BITS_BACKBUFFER[Screen].data[screen_x1 + screenYOffset] = 1; 
+                NF_8BITS_BACKBUFFER[Screen].data[screen_x1 + screenYOffset] = color; 
             }
             if (texel2 > 0) {
-                NF_8BITS_BACKBUFFER[Screen].data[screen_x1 + 1 + screenYOffset] = 1;
+                NF_8BITS_BACKBUFFER[Screen].data[screen_x1 + 1 + screenYOffset] = color;
             }
         }
     }

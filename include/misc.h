@@ -24,6 +24,44 @@ class Pos
         Pos operator-(int numberToSub) const {
             return Pos(x-numberToSub,y-numberToSub);
         }
+        Pos operator*(int numberToMultiply) const {
+            return Pos(x * numberToMultiply, y * numberToMultiply);
+        }
+        Pos operator/(int numberToDevide) const {
+            return Pos(x / numberToDevide, y / numberToDevide);
+        }
+        Pos operator+(Pos other) const {
+            return Pos(x + other.x, y + other.y);
+        }
+        Pos& operator+=(const Pos& other) {
+            x += other.x;
+            y += other.y;
+            return *this;
+        }
+        Pos operator-(Pos other) const {
+            return Pos(x - other.x, y - other.y);
+        }
+        Pos& operator-=(const Pos& other) {
+            x -= other.x;
+            y -= other.y;
+            return *this;
+        }
+        Pos operator*(Pos other) const {
+            return Pos(x * other.x, y * other.y);
+        }
+        Pos& operator*=(const Pos& other) {
+            x *= other.x;
+            y *= other.y;
+            return *this;
+        }
+        Pos operator/(Pos other) const {
+            return Pos(x / other.x, y / other.y);
+        }
+        Pos& operator/=(const Pos& other) {
+            x /= other.x;
+            y /= other.y;
+            return *this;
+        }
 };
 
 
