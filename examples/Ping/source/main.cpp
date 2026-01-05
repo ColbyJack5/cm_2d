@@ -2,9 +2,7 @@
 #include <nds.h>
 #include <nf_lib.h>
 #include <cm_2d.h>
-#include "blocky_0.h"
 #include "take2_0.h"
-#include "Mario_0.h"
 
 int main(int argc, char **argv) {
 	Initialize(); //This sets up everything, call it at the beginning of every program

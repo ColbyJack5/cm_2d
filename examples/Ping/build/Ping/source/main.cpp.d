@@ -84,8 +84,7 @@ build/Ping/source/main.cpp.o: source/main.cpp \
  C:/msys2/opt/wonderful/thirdparty/blocksds/external/cm_2d/include/misc.h \
  C:/msys2/opt/wonderful/thirdparty/blocksds/external/cm_2d/include/text.h \
  C:/msys2/opt/wonderful/thirdparty/blocksds/external/cm_2d/include/ui.h \
- build/Ping/graphics/blocky_0.h build/Ping/graphics/take2_0.h \
- build/Ping/graphics/Mario_0.h
+ build/Ping/graphics/take2_0.h
 C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/nds.h:
 C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/nds/bios.h:
 C:/msys2/opt/wonderful/thirdparty/blocksds/core/libs/libnds/include/nds/ndstypes.h:
@@ -171,6 +170,4 @@ C:/msys2/opt/wonderful/thirdparty/blocksds/external/cm_2d/include/sprites.h:
 C:/msys2/opt/wonderful/thirdparty/blocksds/external/cm_2d/include/misc.h:
 C:/msys2/opt/wonderful/thirdparty/blocksds/external/cm_2d/include/text.h:
 C:/msys2/opt/wonderful/thirdparty/blocksds/external/cm_2d/include/ui.h:
-build/Ping/graphics/blocky_0.h:
 build/Ping/graphics/take2_0.h:
-build/Ping/graphics/Mario_0.h:
