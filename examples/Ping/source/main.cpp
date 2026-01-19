@@ -2,9 +2,7 @@
 #include <nds.h>
 #include <nf_lib.h>
 #include <cm_2d.h>
-#include "blocky_0.h"
 #include "take2_0.h"
-#include "Mario_0.h"
 
 int main(int argc, char **argv) {
 	Initialize(); //This sets up everything, call it at the beginning of every program
@@ -16,7 +14,7 @@ int main(int argc, char **argv) {
 	NF_8BITS_BACKBUFFER[ScreenConstants::BOTTOMSCREEN].pal[1] = RGB15(31, 31, 31); //White  
 	NF_8BITS_BACKBUFFER[ScreenConstants::TOPSCREEN].pal[1] = RGB15(31, 31, 31); //White
   
-	//Load a backgroun
+	//Load a background
 	NF_LoadTiledBg("backgrounds/blue", "blue", 256, 256);
 
 	//Create two instances of the "blue" background

@@ -66,6 +66,12 @@ void CM_MoveSprite(Identifier spriteIdentity, Pos position);
 /* Sets the Animation of a Sprite. Animation must first be added to the Sprite Template the Sprite is created from */
 void CM_SetSpriteAnimation(Identifier spriteIdentity, const std::string& animationName);
 
+void CM_PauseSpriteAnimation(Identifier spriteIdentity);
+
+void CM_ResumeSpriteAnimation(Identifier spriteIdentity);
+
+void CM_StopSpriteAnimation(Identifier spriteIdentity);
+
 std::string CM_GetCurrentSpriteAnimation(Identifier spriteIdentity);
 
 /* Gets whether or not the current animaiton is on its final frame */

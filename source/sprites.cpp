@@ -24,7 +24,7 @@ class SpriteTemplate {
     public:
         Identifier identity;
         std::string name;
-        std::optional<Identifier> screenOvram;
+        std::optional<Identifier> screen0vram;
         std::optional<Identifier> screen1vram;
         int width, height;
         bool isAnimated;
@@ -41,7 +41,7 @@ class SpriteTemplate {
         }
 
         void LoadTemplateToVRAM(int screen, Identifier vramIdentity){
-            std::optional<Identifier>& vramID = (screen == 0) ? screenOvram: screen1vram;
+            std::optional<Identifier>& vramID = (screen == 0) ? screen0vram: screen1vram;
             if (vramID.has_value()) return; 
             vramID = vramIdentity;
             vramID.value().screen = screen;
@@ -50,20 +50,20 @@ class SpriteTemplate {
 
         
         void UnloadTemplateFromVRAM(int screen){
-            std::optional<Identifier>& vramID = (screen == 0) ? screenOvram: screen1vram; 
+            std::optional<Identifier>& vramID = (screen == 0) ? screen0vram: screen1vram; 
             NF_FreeSpriteGfx(screen, vramID.value().id);
             vramID.reset();
         }
 
 
         bool IsLoadedInVRAM(int screen) {
-            std::optional<Identifier>& vramID = (screen == 0) ? screenOvram : screen1vram;
+            std::optional<Identifier>& vramID = (screen == 0) ? screen0vram : screen1vram;
             return vramID.has_value();
         }
 
 
         Identifier GetTemplateVRAM(int screen){
-            return (screen == 0) ? screenOvram.value(): screen1vram.value(); 
+            return (screen == 0) ? screen0vram.value(): screen1vram.value(); 
         }
 
         
@@ -129,10 +129,11 @@ class SpriteInstance {
         int plttID;
         Pos position;
         int width, height;
+        bool pauseAnimation;
         bool isAnimated;
         SpriteTemplate* template_;
 
-        SpriteInstance(Identifier identity, int screen, SpriteTemplate* tmpl, SpritePalette* pltt, Pos pos): identity(identity), screen(screen), gfxID(((screen ==0) ? tmpl->screenOvram.value() : tmpl->screen1vram.value()).id), plttID(((screen == 0) ? pltt-> screen0vram.value() : pltt -> screen1vram.value()).id), position(pos), width(tmpl->width), height(tmpl->height), isAnimated(tmpl->isAnimated), template_(tmpl) { 
+        SpriteInstance(Identifier identity, int screen, SpriteTemplate* tmpl, SpritePalette* pltt, Pos pos): identity(identity), screen(screen), gfxID(((screen ==0) ? tmpl->screen0vram.value() : tmpl->screen1vram.value()).id), plttID(((screen == 0) ? pltt-> screen0vram.value() : pltt -> screen1vram.value()).id), position(pos), width(tmpl->width), height(tmpl->height), isAnimated(tmpl->isAnimated), template_(tmpl) { 
             this->identity.screen = screen;
             NF_CreateSprite(screen, identity.id, gfxID, plttID, pos.x, pos.y);
         }
@@ -145,7 +146,7 @@ class SpriteInstance {
         void SetAnimation(const std::string& animationName) {
             auto animIt = template_->animations.find(animationName);
             if (animIt == template_->animations.end()) return;
-            
+            pauseAnimation = false;
             currentAnim = animationName;
             currentFrame = 0;
             frameTimer = 0;  
@@ -168,6 +169,19 @@ class SpriteInstance {
         bool GetAnimationCompleted(){
             if(currentFrame >= currentFrames.size()-1 && frameTimer >= frameDelay) return true;
             else return false;
+        }
+
+        void PauseAnimation() {
+            pauseAnimation = true;
+        }
+
+        void ResumeAnimation() {
+            pauseAnimation = false;
+        }
+
+        void StopAnimation() {
+            pauseAnimation = true;
+            currentAnim = "";
         }
 
         void SetLayer(int layer){
@@ -212,7 +226,7 @@ class SpriteInstance {
 
         void Update() {
             if (currentFrames.empty()) return;
-            
+            if (pauseAnimation) return;
             if(GetAnimationCompleted() && !animationQueue.empty()){
                 SetAnimation(animationQueue.front());
                 animationQueue.pop();
@@ -458,6 +472,10 @@ class SpriteManager {
                 return {};  
             }
             SpriteTemplate* spritetemplate = spriteManager.GetSpriteTemplate(templateName);
+            if((screen == 0 && !spritetemplate->screen0vram.has_value()) || (screen == 1 && !spritetemplate->screen1vram.has_value())){
+                std::cout << "Sprite Template: \"" << spritetemplate->name << "\" is not in VRAM on screen " << screen << std::endl;
+                return {};
+            }
             SpritePalette* spritepalette = spriteManager.GetSpritePalette(paletteName);
             ScreenRegistry& registry = spriteManager.GetScreenRegistry(screen);
             SpriteInstance* sprite = registry.sprites.create(screen, spritetemplate, spritepalette, pos);
@@ -479,6 +497,10 @@ class SpriteManager {
                 return {};  
             }
             SpriteTemplate* spritetemplate = spriteManager.GetSpriteTemplate(templateName);
+            if((screen == 0 && !spritetemplate->screen0vram.has_value()) || (screen == 1 && !spritetemplate->screen1vram.has_value())){
+                std::cout << "Sprite Template: \"" << spritetemplate->name << "\" is not in VRAM on screen " << screen << std::endl;
+                return {};
+            }
             SpritePalette* spritepalette = spriteManager.GetSpritePalette(spriteManager.paletteRegistry.begin()->first);
             ScreenRegistry& registry = spriteManager.GetScreenRegistry(screen);
             SpriteInstance* sprite = registry.sprites.create(screen, spritetemplate, spritepalette, pos);
@@ -533,6 +555,24 @@ class SpriteManager {
             if(!CM_isSpriteValid(spriteIdentity)) return;
             ScreenRegistry& registry = spriteManager.GetScreenRegistry(spriteIdentity.screen.value());
             registry.sprites.get(spriteIdentity)->SetAnimation(animationName);
+        }
+
+        void CM_PauseSpriteAnimation(Identifier spriteIdentity) {
+            if (!CM_isSpriteValid(spriteIdentity)) return;
+            ScreenRegistry& registry = spriteManager.GetScreenRegistry(spriteIdentity.screen.value());
+            registry.sprites.get(spriteIdentity)->PauseAnimation();
+        }
+
+        void CM_ResumeSpriteAnimation(Identifier spriteIdentity) {
+            if (!CM_isSpriteValid(spriteIdentity)) return;
+            ScreenRegistry& registry = spriteManager.GetScreenRegistry(spriteIdentity.screen.value());
+            registry.sprites.get(spriteIdentity)->ResumeAnimation();
+        }
+
+        void CM_StopSpriteAnimation(Identifier spriteIdentity) {
+            if (!CM_isSpriteValid(spriteIdentity)) return;
+            ScreenRegistry& registry = spriteManager.GetScreenRegistry(spriteIdentity.screen.value());
+            registry.sprites.get(spriteIdentity)->StopAnimation();
         }
 
         std::string CM_GetCurrentSpriteAnimation(Identifier spriteIdentity){

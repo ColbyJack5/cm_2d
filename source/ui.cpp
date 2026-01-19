@@ -21,6 +21,7 @@ void Initialize(){
 
 	NF_Set2D(ScreenConstants::TOPSCREEN, 5);				// Mode2D_5 on both screens
 	NF_Set2D(ScreenConstants::BOTTOMSCREEN, 5);
+
     bool init_ok = nitroFSInit(NULL);
     if (!init_ok)
     {

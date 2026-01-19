@@ -9,6 +9,6 @@ void UpdateScreen();
 
 void ClearScreen();
 
-void DrawLine(int screen, Pos end1,Pos end2, int color);
+void DrawLine(int screen, int color, Pos end1,Pos end2);
 
-void DrawBox(int screen, Pos corner, Pos opposingCorner);
+void DrawBox(int screen, int color, Pos corner, Pos opposingCorner);

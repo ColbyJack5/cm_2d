@@ -18,6 +18,12 @@ class Pos
         int DistanceTo(Pos otherPos) const {
             return std::sqrt(std::pow(std::abs(x - otherPos.x),2) + std::pow(std::abs(y - otherPos.y),2));
         }
+        bool operator==(Pos other) const {
+            return x == other.x && y == other.y;
+        }
+        bool operator!=(Pos other) const {
+            return x != other.x || y != other.y;
+        }
         Pos operator+(int numberToAdd) const {
             return Pos(x+numberToAdd,y+numberToAdd);
         }
